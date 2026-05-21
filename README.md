@@ -5,13 +5,13 @@ An application where users can:
   3. Submit reviews for books
 Each book can have many reviews. Each user can create reviews and only manage their own reviews.
 
-Book
- a. title
- b. author
- c. description
- d. genre
- e. isbn 
- f. cover_url
+Book:
+  a. title
+  b. author
+  c. description
+  d. genre
+  e. isbn 
+  f. cover_url
 
 Review
   a. book_id
