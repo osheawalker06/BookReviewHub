@@ -8,6 +8,8 @@ class BooksController < ApplicationController
 
   # GET /books/1 or /books/1.json
   def show
+    @review = @book.reviews.build
+    @reviews = @book.reviews.order(created_at: :desc)
   end
 
   # GET /books/new
