@@ -50,12 +50,6 @@
     <main class="min-h-screen bg-[#F4F1F8] py-12 px-4 text-[#6C5B7B]">
       <div class="max-w-2xl mx-auto bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-[#EBE5F2]">
         <main class="max-w-5xl mx-auto px-6 pb-12">
-          <% if notice.present? %>
-            <div class="mb-6 p-4 rounded-xl text-sm bg-emerald-50 border border-emerald-200 text-emerald-800 shadow-sm animate-fade-in">
-              ✨ <%= notice %>
-            </div>
-          <% end %>
-
           <% if alert.present? %>
             <div class="mb-6 p-4 rounded-xl text-sm bg-rose-50 border border-rose-100 text-rose-800 shadow-sm animate-fade-in">
               ⚠️ <%= alert %>
