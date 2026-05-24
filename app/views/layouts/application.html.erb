@@ -8,7 +8,7 @@
     <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
+    
     <%= yield :head %>
 
     <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
@@ -23,9 +23,45 @@
     <%= javascript_importmap_tags %>
   </head>
 
+  <header class="border-b border-[#EBE5F2] bg-white/80 backdrop-blur-md sticky top-0 z-50 px-6 py-4 mb-6">
+    <div class="max-w-5xl mx-auto flex items-center justify-between">
+      
+      <%= link_to "The Reading Room", books_path, class: "font-serif font-bold text-xl text-[#4A3B52] tracking-tight hover:opacity-80 transition" %>
+      
+      <div class="flex items-center space-x-4 text-sm">
+        <% if user_signed_in? %>
+          <div class="flex items-center space-x-3 bg-[#F4F1F8] px-3 py-1.5 rounded-xl border border-[#EBE5F2]/60">
+            <span class="text-xs font-semibold text-[#6C5B7B]">
+              📖 <%= current_user.email.split('@').first.capitalize %>
+            </span>
+            <span class="text-gray-300">|</span>
+            <%= button_to "Log Out", destroy_user_session_path, method: :delete, class: "text-xs font-medium text-[#C06C84] hover:underline cursor-pointer bg-none border-none p-0" %>
+          </div>
+        <% else %>
+          <%= link_to "Log In", new_user_session_path, class: "text-xs font-semibold text-[#6C5B7B] hover:underline" %>
+          <%= link_to "Sign Up", new_user_registration_path, class: "rounded-xl px-3 py-1.5 text-xs font-semibold bg-[#EBE5F2] text-[#6C5B7B] hover:bg-[#DFD5E7] transition" %>
+        <% end %>
+      </div>
+
+    </div>
+  </header>
+
   <body>
     <main class="min-h-screen bg-[#F4F1F8] py-12 px-4 text-[#6C5B7B]">
       <div class="max-w-2xl mx-auto bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-[#EBE5F2]">
+        <main class="max-w-5xl mx-auto px-6 pb-12">
+          <% if notice.present? %>
+            <div class="mb-6 p-4 rounded-xl text-sm bg-emerald-50 border border-emerald-200 text-emerald-800 shadow-sm animate-fade-in">
+              ✨ <%= notice %>
+            </div>
+          <% end %>
+
+          <% if alert.present? %>
+            <div class="mb-6 p-4 rounded-xl text-sm bg-rose-50 border border-rose-100 text-rose-800 shadow-sm animate-fade-in">
+              ⚠️ <%= alert %>
+            </div>
+          <% end %>
+        </main>
         <%= yield %>
       </div>
     </main>

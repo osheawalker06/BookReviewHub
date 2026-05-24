@@ -22,8 +22,8 @@
 
         <div class="flex-1 flex flex-col justify-between">
           <div>
-            <h1 class="font-serif font-bold text-3xl text-[#4A3B52] leading-tight"><%= @book.title %></h1>
-            <p class="text-md text-gray-500 mt-2">Written by <span class="text-[#6C5B7B] font-medium"><%= @book.author %></span></p>
+            <h1 class="font-serif font-bold text-3xl text-[#4A3B52] leading-tight"></h1>
+            <p class="text-md text-gray-500 mt-2"><span class="text-[#6C5B7B] font-medium"></span></p>
             <h1 class="font-serif font-bold text-3xl text-[#4A3B52] leading-tight">
               <%= @book.title %>
               
@@ -39,8 +39,6 @@
             <div class="mt-2">
               <% if @book.average_rating == "Unrated" %>
                 <span class="text-xs font-medium text-gray-400 italic">This text is currently unrated.</span>
-              <% else %>
-                <span class="text-xs text-gray-400">Reflective average across <%= @book.reviews.count %> logs</span>
               <% end %>
             </div>
             <% if @book.isbn.present? %>
@@ -74,7 +72,10 @@
                 </span>
               </div>
               <p class="text-sm text-gray-700 leading-relaxed mb-3"><%= review.comment %></p>
-
+              <% if user_signed_in? && review.user == current_user %>
+                <div class="flex space-x-3 text-xs font-medium">
+                  </div>
+              <% end %>
               <div class="flex space-x-3 text-xs font-medium">
                 <%= link_to "Edit", edit_book_review_path(@book, review), class: "text-[#6C5B7B] hover:underline" %>
                 <%= button_to "Delete", book_review_path(@book, review), method: :delete, class: "text-[#C06C84] hover:underline cursor-pointer bg-none border-none p-0", data: { turbo_confirm: "Delete this review?" } %>

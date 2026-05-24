@@ -1,0 +1,33 @@
+<div class="max-w-2xl mx-auto my-8">
+  <div class="flex items-center space-x-4 mb-8">
+    <%= link_to "Cancel and Go Back", book_path(@book), class: "rounded-lg px-3.5 py-2 bg-[#C7E7DE] hover:bg-[#45B39D] font-medium text-xs transition" %>
+  </div>
+
+  <div class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-[#EBE5F2]">
+    <h2 class="font-serif font-bold text-2xl text-[#4A3B52] mb-2">Edit Review</h2>
+    <p class="text-xs text-gray-400 mb-6">Updating your review for <span class="font-semibold text-[#6C5B7B]"><%= @book.title %></span></p>
+
+    <%= form_with(model: [@book, @review], local: true, class: "space-y-4") do |f| %>
+        <div>
+            <label class="block text-xs font-semibold text-[#6C5B7B] uppercase tracking-wide mb-2">Your Rating</label>
+                <div class="flex items-center justify-start flex-row-reverse space-x-1 space-x-reverse w-max">
+                    <% [5, 4, 3, 2, 1].each do |num| %>
+                    <%= f.radio_button :rating, num, id: "star_#{num}", class: "peer hidden" %>
+                        <label for="star_<%= num %>" class="cursor-pointer text-2xl text-gray-300 peer-checked:text-[#6C5B7B] hover:text-[#6C5B7B] peer-hover:text-[#6C5B7B] transition-colors duration-150">
+                            ★
+                        </label>
+                    <% end %>
+                </div>
+        </div>
+
+      <div>
+        <%= f.label :comment, "Comment", class: "block text-xs font-semibold text-[#6C5B7B] uppercase tracking-wide mb-1" %>
+        <%= f.text_area :comment, rows: 4, class: "w-full rounded-xl border border-[#EBE5F2] px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#6C5B7B]/20 focus:border-[#6C5B7B] transition bg-[#F4F1F8]/30 placeholder-gray-400/70", placeholder: "Share your revised thoughts on this piece..." %>
+      </div>
+
+      <div>
+        <%= f.submit "Update Review", class: "w-full text-center block text-xs font-semibold tracking-wide uppercase rounded-xl py-3 bg-[#6C5B7B] hover:bg-[#5A4B69] text-white shadow-sm transition cursor-pointer" %>
+      </div>
+    <% end %>
+  </div>
+</div>
