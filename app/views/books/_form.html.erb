@@ -1,47 +1,56 @@
-<%= form_with(model: book, class: "contents") do |form| %>
+<%= form_with(model: book, class: "space-y-5") do |form| %>
+  
   <% if book.errors.any? %>
-    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-md mt-3">
-      <h2><%= pluralize(book.errors.count, "error") %> prohibited this book from being saved:</h2>
-
-      <ul class="list-disc ml-6">
-        <% book.errors.each do |error| %>
-          <li><%= error.full_message %></li>
+    <div class="p-4 bg-[#F8E9EC] text-[#C06C84] rounded-xl text-sm shadow-sm">
+      <h2 class="font-bold mb-1"><%= pluralize(book.errors.count, "error") %> stopped this book from saving:</h2>
+      <ul class="list-disc list-inside text-xs space-y-0.5">
+        <% book.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
         <% end %>
       </ul>
     </div>
   <% end %>
 
-  <div class="my-5">
-    <%= form.label :title %>
-    <%= form.text_field :title, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": book.errors[:title].none?, "border-red-400 focus:outline-red-600": book.errors[:title].any?}] %>
+  <div>
+    <%= form.label :title, class: "block font-medium text-sm text-gray-500 mb-1" %>
+    <%= form.text_field :title, class: "rounded-xl border border-[#EBE5F2] bg-[#F4F1F8]/30 px-4 py-2.5 w-full block focus:ring-2 focus:ring-[#6C5B7B] focus:border-transparent text-sm text-[#4A3B52]" %>
   </div>
 
-  <div class="my-5">
-    <%= form.label :author %>
-    <%= form.text_field :author, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": book.errors[:author].none?, "border-red-400 focus:outline-red-600": book.errors[:author].any?}] %>
+  <div>
+    <%= form.label :author, class: "block font-medium text-sm text-gray-500 mb-1" %>
+    <%= form.text_field :author, class: "rounded-xl border border-[#EBE5F2] bg-[#F4F1F8]/30 px-4 py-2.5 w-full block focus:ring-2 focus:ring-[#6C5B7B] focus:border-transparent text-sm text-[#4A3B52]" %>
   </div>
 
-  <div class="my-5">
-    <%= form.label :description %>
-    <%= form.textarea :description, rows: 4, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": book.errors[:description].none?, "border-red-400 focus:outline-red-600": book.errors[:description].any?}] %>
+  <div>
+    <%= form.label :description, class: "block font-medium text-sm text-gray-500 mb-1" %>
+    <%= form.text_area :description, rows: 4, class: "rounded-xl border border-[#EBE5F2] bg-[#F4F1F8]/30 px-4 py-2.5 w-full block focus:ring-2 focus:ring-[#6C5B7B] focus:border-transparent text-sm text-[#4A3B52]" %>
   </div>
 
-  <div class="my-5">
-    <%= form.label :genre %>
-    <%= form.text_field :genre, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": book.errors[:genre].none?, "border-red-400 focus:outline-red-600": book.errors[:genre].any?}] %>
+  <div>
+    <%= form.label :genre, class: "block font-medium text-sm text-gray-500 mb-1" %>
+    <%= form.text_field :genre, class: "rounded-xl border border-[#EBE5F2] bg-[#F4F1F8]/30 px-4 py-2.5 w-full block focus:ring-2 focus:ring-[#6C5B7B] focus:border-transparent text-sm text-[#4A3B52]" %>
   </div>
 
-  <div class="my-5">
-    <%= form.label :isbn %>
-    <%= form.text_field :isbn, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": book.errors[:isbn].none?, "border-red-400 focus:outline-red-600": book.errors[:isbn].any?}] %>
+  <div>
+    <%= form.label :isbn, "ISBN", class: "block font-medium text-sm text-gray-500 mb-1" %>
+    <%= form.text_field :isbn, class: "rounded-xl border border-[#EBE5F2] bg-[#F4F1F8]/30 px-4 py-2.5 w-full block focus:ring-2 focus:ring-[#6C5B7B] focus:border-transparent text-sm text-[#4A3B52]" %>
   </div>
 
-  <div class="my-5">
-    <%= form.label :cover_url %>
-    <%= form.text_field :cover_url, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": book.errors[:cover_url].none?, "border-red-400 focus:outline-red-600": book.errors[:cover_url].any?}] %>
+  <div>
+    <%= form.label :cover_url, "Cover URL", class: "block font-medium text-sm text-gray-500 mb-1" %>
+    <%= form.text_field :cover_url, class: "rounded-xl border border-[#EBE5F2] bg-[#F4F1F8]/30 px-4 py-2.5 w-full block focus:ring-2 focus:ring-[#6C5B7B] focus:border-transparent text-sm text-[#4A3B52]" %>
   </div>
 
-  <div class="inline">
-    <%= form.submit class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
+  <div class="pt-4 flex flex-wrap items-center gap-2 border-t border-gray-100">
+    
+    <%= form.submit class: "rounded-xl px-4 py-2.5 text-sm text-white bg-[#6C5B7B] hover:bg-[#574964] font-medium shadow-sm cursor-pointer transition flex-shrink-0" %>
+    
+    <% if book.persisted? %>
+      <%= link_to "Show this book", book, class: "rounded-xl px-4 py-2.5 text-sm text-[#6C5B7B] bg-[#EBE5F2] hover:bg-[#DFD5E7] font-medium text-center transition" %>
+    <% end %>
+    
+    <%= link_to "Back to books", books_path, class: "rounded-xl px-4 py-2.5 text-sm text-gray-500 bg-gray-100 hover:bg-gray-200 font-medium text-center transition" %>
+  
   </div>
+
 <% end %>

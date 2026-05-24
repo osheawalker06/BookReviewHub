@@ -1,72 +1,131 @@
-<% content_for :title, "Showing book" %>
+<% content_for :title, @book.title %>
 
-<div class="md:w-2/3 w-full">
-  <% if notice.present? %>
-    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-md inline-block" id="notice"><%= notice %></p>
-  <% end %>
+<div class="min-h-screen bg-[#F4F1F8] py-10 px-4 text-[#6C5B7B]">
+  <div class="max-w-3xl mx-auto">
+    
+    <% if notice.present? %>
+      <p class="py-2 px-4 bg-[#E8F6F3] mb-6 text-[#45B39D] font-medium rounded-lg text-sm shadow-sm" id="notice"><%= notice %></p>
+    <% end %>
 
-  <h1 class="font-bold text-4xl">Showing book</h1>
+    <div class="flex items-center space-x-4 mb-8">
+      <%= link_to "Back to Reading Room", books_path, class: "rounded-lg px-3.5 py-2 bg-[#C7E7DE] hover:bg-[#45B39D] font-medium text-xs transition" %>
+    </div>
 
-  <%= render @book %>
+    <div class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-[#EBE5F2] mb-8">
+      <div class="flex flex-col md:flex-row gap-8">
+        
+        <div class="w-full md:w-1/3 max-w-[200px] mx-auto md:mx-0">
+          <div class="rounded-xl overflow-hidden shadow-sm border border-gray-100 bg-[#EBE5F2]">
+            <img src="<%= @book.cover_image_url %>" alt="<%= @book.title %> Cover" class="w-full object-cover">
+          </div>
+        </div>
 
-  <%= link_to "Edit this book", edit_book_path(@book), class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-  <%= link_to "Back to books", books_path, class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-  <%= button_to "Destroy this book", @book, method: :delete, form_class: "sm:inline-block mt-2 sm:mt-0 sm:ml-2", class: "w-full rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer", data: { turbo_confirm: "Are you sure?" } %>
-</div>
+        <div class="flex-1 flex flex-col justify-between">
+          <div>
+            <h1 class="font-serif font-bold text-3xl text-[#4A3B52] leading-tight"><%= @book.title %></h1>
+            <p class="text-md text-gray-500 mt-2">Written by <span class="text-[#6C5B7B] font-medium"><%= @book.author %></span></p>
+            <h1 class="font-serif font-bold text-3xl text-[#4A3B52] leading-tight">
+              <%= @book.title %>
+              
+              <% unless @book.average_rating == "Unrated" %>
+                <span class="inline-flex items-center ml-3 text-sm font-sans font-bold bg-[#F8E9EC] text-[#C06C84] px-2.5 py-1 rounded-lg transform -translate-y-1">
+                  ★ <%= @book.average_rating %>
+                </span>
+              <% end %>
+            </h1>
 
-<div class="mb-10">
-    <h2 class="font-bold text-2xl mb-4">Reviews</h2>
-    <% if @reviews.any? %>
-      <div class="space-y-4">
-        <% @reviews.each do |review| %>
-          <div class="p-4 border border-gray-100 rounded-lg bg-gray-50/50">
-            <div class="text-yellow-500 font-bold mb-1">
-              <strong>Rating:</strong> <%= review.rating %>/5 ⭐
+            <p class="text-md text-gray-500 mt-1">Written by <span class="text-[#6C5B7B] font-medium"><%= @book.author %></span></p>
+            
+            <div class="mt-2">
+              <% if @book.average_rating == "Unrated" %>
+                <span class="text-xs font-medium text-gray-400 italic">This text is currently unrated.</span>
+              <% else %>
+                <span class="text-xs text-gray-400">Reflective average across <%= @book.reviews.count %> logs</span>
+              <% end %>
             </div>
-            <p class="text-gray-700 mb-3"><%= review.comment %></p>
+            <% if @book.isbn.present? %>
+              <p class="text-xs text-gray-400 mt-1">ISBN: <%= @book.isbn %></p>
+            <% end %>
 
-            <div class="flex space-x-3 text-sm">
-              <%= link_to "Edit", edit_book_review_path(@book, review), class: "text-blue-600 hover:underline" %>
-              <%= button_to "Delete", book_review_path(@book, review), method: :delete, class: "text-red-600 hover:underline cursor-pointer bg-none border-none p-0", data: { turbo_confirm: "Delete this review?" } %>
+            <% if @book.respond_to?(:description) && @book.description.present? %>
+              <p class="text-sm text-gray-600 mt-4 leading-relaxed"><%= @book.description %></p>
+            <% end %>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-3 mt-6 pt-6 border-t border-gray-100">
+            <%= link_to "Edit Record", edit_book_path(@book), class: "rounded-lg px-3.5 py-2 bg-[#EBE5F2] hover:bg-[#DFD5E7] font-medium text-xs transition" %>
+            <%= button_to "Remove Book", @book, method: :delete, class: "rounded-lg px-3.5 py-2 bg-[#F8E9EC] hover:bg-[#F2D7DC] text-[#C06C84] font-medium text-xs cursor-pointer transition", data: { turbo_confirm: "Are you sure you want to remove this book from the system?" } %>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-[#EBE5F2] mb-8">
+      <h2 class="font-serif font-bold text-2xl text-[#4A3B52] mb-6">Community Reviews</h2>
+
+      <% if @reviews.any? %>
+        <div class="space-y-4 max-h-[400px] overflow-y-auto pr-2">
+          <% @reviews.each do |review| %>
+            <div class="p-4 rounded-xl bg-[#F4F1F8]/60 border border-[#EBE5F2]/50">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-semibold tracking-wider text-[#6C5B7B] bg-[#EBE5F2] px-2 py-0.5 rounded">
+                  <%= "★" * review.rating %><%= "☆" * (5 - review.rating) %>
+                </span>
+              </div>
+              <p class="text-sm text-gray-700 leading-relaxed mb-3"><%= review.comment %></p>
+
+              <div class="flex space-x-3 text-xs font-medium">
+                <%= link_to "Edit", edit_book_review_path(@book, review), class: "text-[#6C5B7B] hover:underline" %>
+                <%= button_to "Delete", book_review_path(@book, review), method: :delete, class: "text-[#C06C84] hover:underline cursor-pointer bg-none border-none p-0", data: { turbo_confirm: "Delete this review?" } %>
+              </div>
             </div>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="text-sm text-gray-400 italic py-4">No reviews yet.</p>
+      <% end %>
+    </div>
+
+    <div class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-[#EBE5F2]">
+      <h3 class="font-serif font-bold text-xl text-[#4A3B52] mb-4">Leave a Review</h3>
+
+      <%= form_with model: [@book, @review], class: "space-y-6" do |form| %>
+        <% if @review.errors.any? %>
+          <div class="p-4 bg-[#F8E9EC] text-[#C06C84] rounded-xl text-sm">
+            <h3 class="font-bold mb-1">Please fix these errors:</h3>
+            <ul class="list-disc list-inside text-xs">
+              <% @review.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
           </div>
         <% end %>
-      </div>
-    <% else %>
-      <p class="text-gray-500 italic">No reviews yet. Be the first to review this book.</p>
-    <% end %>
-  </div>
 
-  <div class="bg-white p-6 border border-gray-200 rounded-xl shadow-sm">
-    <h2 class="font-bold text-2xl mb-4">Add a Review</h2>
-
-    <%= form_with model: [@book, @review], class: "space-y-4" do |form| %>
-      
-      <% if @review.errors.any? %>
-        <div class="p-4 bg-red-50 text-red-700 rounded-md text-sm">
-          <h3 class="font-bold mb-1">Please fix these errors:</h3>
-          <ul class="list-disc list-inside">
-            <% @review.errors.full_messages.each do |message| %>
-              <li><%= message %></li>
+        <div data-controller="rating">
+          <label class="block font-medium text-sm text-[#4A3B52] mb-1">Rating</label>
+          <%= form.hidden_field :rating, data: { rating_target: "input" }, value: 0 %>
+          <div class="flex space-x-1 text-3xl">
+            <% (1..5).each do |num| %>
+              <button type="button" class="cursor-pointer text-gray-200 hover:scale-110 transition" data-rating-target="star" data-value="<%= num %>" data-action="click->rating#select">★</button>
             <% end %>
-          </ul>
+          </div>
+        </div>
+
+        <div data-controller="counter">
+          <%= form.text_area :comment, rows: 4, 
+                data: { counter_target: "input", action: "input->counter#count" }, 
+                class: "rounded-xl border border-[#EBE5F2] bg-[#F4F1F8]/30 px-4 py-3 w-full block focus:ring-2 focus:ring-[#6C5B7B] text-sm text-[#4A3B52]" %>
+          <p class="text-xs text-gray-400 mt-1.5 tracking-wide">
+            <span data-counter-target="output" class="font-medium text-[#6C5B7B]">0</span> characters logged.
+          </p>
+        </div>
+
+        <div>
+          <%= form.submit "Publish Review", class: "rounded-xl px-5 py-3 text-sm text-white bg-[#6C5B7B] hover:bg-[#574964] font-medium shadow-sm cursor-pointer transition" %>
         </div>
       <% end %>
+    </div>
 
-      <div>
-        <%= form.label :rating, class: "block font-medium text-gray-700 mb-1" %>
-        <%= form.number_field :rating, min: 1, max: 5, class: "rounded-md border border-gray-300 px-3 py-2 w-24 block focus:ring-blue-500 focus:border-blue-500" %>
-      </div>
-
-      <div>
-        <%= form.label :comment, class: "block font-medium text-gray-700 mb-1" %>
-        <%= form.text_area :comment, rows: 3, class: "rounded-md border border-gray-300 px-3 py-2 w-full block focus:ring-blue-500 focus:border-blue-500" %>
-      </div>
-
-      <div>
-        <%= form.submit "Submit Review", class: "rounded-md px-4 py-2 text-white bg-blue-600 hover:bg-blue-500 font-medium cursor-pointer" %>
-      </div>
-    <% end %>
   </div>
-
 </div>

@@ -1,29 +1,71 @@
-<% content_for :title, "Books" %>
+<% content_for :title, "The Reading Room" %>
 
-<div class="w-full">
+<div class="w-full min-h-screen bg-[#F4F1F8] p-6 text-[#6C5B7B]" data-controller="filter">
+  
   <% if notice.present? %>
-    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-md inline-block" id="notice"><%= notice %></p>
+    <p class="py-2 px-4 bg-[#E8F6F3] mb-6 text-[#45B39D] font-medium rounded-lg inline-block text-sm shadow-sm" id="notice"><%= notice %></p>
   <% end %>
 
-  <div class="flex justify-between items-center">
-    <h1 class="font-bold text-4xl">Books</h1>
-    <%= link_to "New book", new_book_path, class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white block font-medium" %>
+  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+    <div>
+      <h1 class="font-serif font-bold text-4xl text-[#4A3B52]">The Reading Room</h1>
+    </div>
+    <%= link_to "Add New Book Entry", new_book_path, class: "rounded-lg px-4 py-2.5 bg-[#6C5B7B] hover:bg-[#574964] text-[#F4F1F8] font-medium text-sm shadow-sm transition" %>
   </div>
 
-  <div id="books" class="min-w-full divide-y divide-gray-200 space-y-5">
-    <% if @books.any? %>
+  <div class="mb-10">
+    <input type="text" 
+           placeholder="Filter collection by title or author..." 
+           data-filter-target="query"
+           data-action="input->filter#search"
+           class="rounded-xl border-none bg-white px-4 py-3 w-full max-w-md block shadow-sm text-sm focus:ring-2 focus:ring-[#6C5B7B] text-[#4A3B52]"
+           autocomplete="off">
+  </div>
+
+  <div id="books" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">    <% if @books.any? %>
       <% @books.each do |book| %>
-        <div class="flex flex-col sm:flex-row justify-between items-center pb-5 sm:pb-0">
-          <%= render book %>
-          <div class="w-full sm:w-auto flex flex-col sm:flex-row space-x-2 space-y-2">
-            <%= link_to "Show", book, class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-            <%= link_to "Edit", edit_book_path(book), class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-            <%= button_to "Destroy", book, method: :delete, class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer", data: { turbo_confirm: "Are you sure?" } %>
+        
+        <div class="flex flex-col bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md border border-[#EBE5F2] transition duration-200"
+             data-filter-target="book"
+             data-title="<%= book.title %>"
+             data-author="<%= book.author %>">
+          
+          <div class="aspect-[3/4] bg-[#EBE5F2] w-full relative overflow-hidden flex items-center justify-center">
+            <img src="<%= book.cover_image_url %>" alt="<%= book.title %> Cover" class="object-cover w-full h-full">
           </div>
+
+          <div class="p-5 flex flex-col flex-grow justify-between">
+            <div class="mb-4">
+              <h3 class="font-serif font-bold text-lg text-[#4A3B52] leading-snug">
+                <%= book.title %>
+                
+                <% unless book.average_rating == "Unrated" %>
+                  <span class="inline-flex items-center ml-2 text-xs font-sans font-bold text-[#C06C84] bg-[#F8E9EC] px-2 py-0.5 rounded-md transform -translate-y-0.5 select-none">
+                    ★ <%= book.average_rating %>
+                  </span>
+                <% end %>
+              </h3>
+
+              <p class="text-xs text-gray-500 mt-1">By <span class="font-medium text-[#6C5B7B]"><%= book.author %></span></p>
+              
+              <% if book.average_rating == "Unrated" %>
+                <p class="text-[11px] text-gray-400 italic mt-1">No reviews yet</p>
+              <% else %>
+                <p class="text-[11px] text-gray-400 mt-1">(<%= book.reviews.count %> <%= "review".pluralize(book.reviews.count) %> posted)</p>
+              <% end %>
+
+            </div>
+            
+            <%= link_to "View Details", book, class: "w-full text-center block text-xs font-semibold tracking-wide uppercase rounded-lg py-2 bg-[#EBE5F2] hover:bg-[#DFD5E7] text-[#6C5B7B] transition" %>
+          </div>
+
         </div>
+
       <% end %>
     <% else %>
-      <p class="text-center my-10">No books found.</p>
+      <div class="col-span-full p-12 text-center bg-white rounded-2xl border border-dashed border-gray-200">
+        <p class="text-gray-400 italic">No literary texts have been indexed yet.</p>
+      </div>
     <% end %>
   </div>
 </div>

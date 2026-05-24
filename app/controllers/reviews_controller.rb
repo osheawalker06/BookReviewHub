@@ -1,6 +1,6 @@
 class ReviewsController < ApplicationController
-  before action: set_book
-  before action: set_review, only: [ :edit, :update, :destroy ]
+  before_action :set_book
+  before_action :set_review, only: [ :edit, :update, :destroy ]
 
   def create
     @review = @book.reviews.build(review_params)
