@@ -5,6 +5,14 @@ An application where users can:
   3. Submit reviews for books
 Each book can have many reviews. Each user can create reviews and only manage their own reviews.
 
+## Features
+
+  1.  **Browse & View:** Explore books and deep-dive into detailed title profiles.
+  2.   **Authentication:** Managed via Devise. Visitors can browse freely, but must sign up or log in to create reviews.
+  3.   **Granular Ownership:** Users can edit or delete only the reviews they created.
+
+## Database Architecture
+
 Book:
   a. title
   b. author
@@ -23,31 +31,34 @@ User
   a. email
   b. authentication
 
+### Prerequisites
 
+  1. **Ruby Version:** `3.4.8`
+  2. **Framework:** Rails `8.1.2`
+  3. **Database:** PostgreSQL
 
+### Installation
 
+1. **Clone the repository:**
+```bash
+   git clone [https://github.com/shea/BookReviewHub.git](https://github.com/shea/BookReviewHub.git)
+   cd BookReviewHub
 
+Install dependencies:
 
+  1. bundle install
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Setup the database:
 
-Things you may want to cover:
+  1. bin/rails db:create
+  2. bin/rails db:migrate
 
-* Ruby version
+Run the app:
 
-* System dependencies
+  1. bin/dev
+  2. Navigate to http://localhost:3000.
 
-* Configuration
+Run all tests:
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+   1. bin/rails test
+   2. bin/rails test:system
