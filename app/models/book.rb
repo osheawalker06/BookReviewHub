@@ -5,7 +5,7 @@ class Book < ApplicationRecord
   validates :author, presence: true
   validates :description, presence: true
   validates :genre, presence: true
-  validates :isbn, presence: true, uniqueness: true
+  validates :isbn, uniqueness: true, allow_blank: true
   validates :cover_url, presence: true
 
   def cover_image_url
